@@ -1,0 +1,28 @@
+.container {
+    width: 800px;
+}
+
+.item {
+    float: left;
+    margin: 10px;
+    width: 200px;
+    height: 200px;
+    background: lightgray;
+    border: solid gray 5px;
+    transition: background 0.3s, border 0.3s;
+}
+
+.item.focused {
+    background: lightgreen;
+    border: solid green 5px;
+}
+
+.debug-point {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    box-shadow: black 0px 0px 5px;
+    background: yellow;
+    pointer-events: none;
+}
+
