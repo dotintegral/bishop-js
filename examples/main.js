@@ -1,5 +1,5 @@
 define([
-    'navi'
+    '../navi'
 ], function (
     navi
 ) {
