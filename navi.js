@@ -52,6 +52,8 @@ define([], function () {
     function findNextNavigable(params) {
 
         var el;
+        var elements = [];
+        var errorCount = 0;
         var point;
         var offset;
         var spread = params.spread;
@@ -69,12 +71,21 @@ define([], function () {
 
             try {
                 el = findNavigableFromPoint(point);
+                
+                if (elements.indexOf(el) === -1) {
+                    elements.push(el);
+                }
+
             } catch (e) {
-                throw new Error('out of bounds');
+                errorCount++;
             }
         }
 
-        return el;
+        if (errorCount === spread) {
+            throw new Error('out of bounds');
+        }
+
+        return elements[0];
     }
 
 
