@@ -39,12 +39,42 @@ define([], function () {
     }
 
 
-    function getStartingPoint(element) {
+    function getStartingPoint(element, direction) {
         var rect = element.getBoundingClientRect();
+        var x;
+        var y;
+
+        switch(direction.x) {
+            case -1:
+                x = rect.left;
+                break;
+
+            case 0:
+                x = rect.left + rect.width/2;
+                break;
+
+            case 1:
+                x = rect.right;
+                break;
+        }
+
+        switch(direction.y) {
+            case -1:
+                y = rect.top;
+                break;
+
+            case 0:
+                y = rect.top + rect.height/2;
+                break;
+
+            case 1:
+                y = rect.bottom;
+                break;
+        }
 
         return {
-            x: rect.left + (rect.width / 2),
-            y: rect.top + (rect.height / 2)
+            x: x,
+            y: y
         }
     }
 
@@ -116,18 +146,30 @@ define([], function () {
     function navigate(direction) {
         var i=0;
         var el;
-        var start = getStartingPoint(currentElement);
+        var start = getStartingPoint(currentElement, direction);
+        var spread = 0;
+        var minSpread = ~~currentElement.getAttribute('nav-min-spread') || 0;
+        var maxSpread = ~~currentElement.getAttribute('nav-max-spread') || 9999;
 
         clearDebugPoints();
 
         while(true) {
             i++;
+            spread++;
+
+            if (spread < minSpread) {
+                spread = minSpread;
+            }
+
+            if (spread > maxSpread) {
+                spread = maxSpread;
+            }
 
             try {
                 el = findNextNavigable({
                     x: start.x + direction.x * step * i,
                     y: start.y + direction.y * step * i,
-                    spread: i,
+                    spread: spread,
                     direction: direction
                 });
 
@@ -181,6 +223,9 @@ define([], function () {
 
 
     return {
+        setDebug: function (val) {
+            debugPoints = !!val;
+        },
         setNavigableCondition: function (func) {
             isNavigable = func;
         },
