@@ -1,11 +1,16 @@
 define([], function () {
     "use strict";
     
-    var step = 30;
-    var dispersion = 30;
-    var debugPoints = true;
+    var api = {
+        step: 30,
+        dispersion: 30,
+        debugPoints: true,
+        showTime: true,
+        minSpread: 1,
+        maxSpread: 20
+    }
+
     var currentElement = null;
-    var isNavigable = defaultIsNavigable;
     var keys = {
         up: 38,
         down: 40,
@@ -16,7 +21,7 @@ define([], function () {
     }
 
     function debugPoint(point) {
-        if (debugPoints) {
+        if (api.debugPoints) {
             var debugElement = document.createElement('div');
             debugElement.className = 'debug-point';
             debugElement.style.top = point.y + "px";
@@ -91,7 +96,7 @@ define([], function () {
         
         for(var i=0; i<spread; i++) {
             el = null;
-            offset = (i * dispersion) - (spread * dispersion * 0.5);
+            offset = (i * api.dispersion) - (spread * api.dispersion * 0.5);
 
             point = {
                 x: params.x + Math.abs(direction.y) * offset,
@@ -132,7 +137,7 @@ define([], function () {
                 break;
             }
             
-            if (isNavigable(element)) {
+            if (api.isNavigable(element)) {
                 break;
             }
 
@@ -142,14 +147,22 @@ define([], function () {
         return element;
     }
 
+    function blur(element) {
+        element.classList.remove('focused');
+    }
+
+    function focus(element) {
+        element.classList.add('focused');
+    }
+
 
     function navigate(direction) {
         var i=0;
         var el;
         var start = getStartingPoint(currentElement, direction);
         var spread = 0;
-        var minSpread = ~~currentElement.getAttribute('nav-min-spread') || 0;
-        var maxSpread = ~~currentElement.getAttribute('nav-max-spread') || 9999;
+        var minSpread = ~~currentElement.getAttribute('nav-min-spread') || api.minSpread;
+        var maxSpread = ~~currentElement.getAttribute('nav-max-spread') || api.maxSpread;
 
         clearDebugPoints();
 
@@ -167,16 +180,16 @@ define([], function () {
 
             try {
                 el = findNextNavigable({
-                    x: start.x + direction.x * step * i,
-                    y: start.y + direction.y * step * i,
+                    x: start.x + direction.x * api.step * i,
+                    y: start.y + direction.y * api.step * i,
                     spread: spread,
                     direction: direction
                 });
 
                 if (el && el !== currentElement) {
-                    currentElement.classList.remove('focused');
+                    api.blur(currentElement);
                     currentElement = el;
-                    currentElement.classList.add('focused');
+                    api.focus(currentElement);
                     break;
                 }
 
@@ -195,6 +208,10 @@ define([], function () {
 
 
     function keyHandler(event) {
+        if (api.showTime) {
+            console.time('navi');
+        }
+
         switch(event.keyCode) {
 
             case keys.up:
@@ -213,6 +230,10 @@ define([], function () {
                 navigate({x: 1, y: 0});
                 break;
         }
+
+        if (api.showTime) {
+            console.timeEnd('navi');
+        }
     }
 
 
@@ -221,17 +242,13 @@ define([], function () {
         currentElement = document.querySelector(".focused");
     }
 
+    api.keyHandler = keyHandler;
+    api.init = init;
+    api.isNavigable = defaultIsNavigable;
+    api.focus = focus;
+    api.blur = blur;
 
-    return {
-        setDebug: function (val) {
-            debugPoints = !!val;
-        },
-        setNavigableCondition: function (func) {
-            isNavigable = func;
-        },
-        keyHandler: keyHandler,
-        init: init
-    }
-    
+
+    return api;
 });
 
