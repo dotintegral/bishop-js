@@ -1,5 +1,5 @@
 define([
-    '../navi'
+    '../bishop'
 ], function (
     navi
 ) {
