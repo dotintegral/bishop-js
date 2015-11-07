@@ -5,7 +5,6 @@ define([], function () {
         step: 30,
         dispersion: 30,
         debugPoints: true,
-        showTime: true,
         minSpread: 1,
         maxSpread: 20
     }
@@ -18,7 +17,7 @@ define([], function () {
         right: 39,
         enter: 13,
         esc: 17
-    }
+    };
 
     function debugPoint(point) {
         if (api.debugPoints) {
@@ -206,12 +205,18 @@ define([], function () {
         }
     }
 
+    function createNaviEvent(keyEvent) {
+        var event = new CustomEvent('navigate', {
+            bubble: true,
+            cancelable: true
+        });
+        event.keyCode = keyEvent.keyCode
 
-    function keyHandler(event) {
-        if (api.showTime) {
-            console.time('navi');
-        }
+        return event;
+    }
 
+
+    function defaultNavigation(event) {
         switch(event.keyCode) {
 
             case keys.up:
@@ -230,9 +235,17 @@ define([], function () {
                 navigate({x: 1, y: 0});
                 break;
         }
+    }
 
-        if (api.showTime) {
-            console.timeEnd('navi');
+
+    function keyHandler(keyboardEvent) {
+        var event;
+
+        event = createNaviEvent(keyboardEvent);
+        currentElement.dispatchEvent(event);
+
+        if (event.defaultPrevented === false) {
+            defaultNavigation(event);
         }
     }
 
