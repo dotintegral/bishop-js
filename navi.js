@@ -2,6 +2,7 @@ define([], function () {
     "use strict";
     
     var step = 30;
+    var dispersion = 30;
     var debugPoints = true;
     var currentElement = null;
     var isNavigable = defaultIsNavigable;
@@ -48,15 +49,29 @@ define([], function () {
     }
 
 
-    function findNextNavigable(point) {
-        debugPoint(point);
+    function findNextNavigable(params) {
 
-        var el = null;
+        var el;
+        var point;
+        var offset;
+        var spread = params.spread;
+        var direction = params.direction;
         
-        try {
-            el = findNavigableFromPoint(point);
-        } catch (e) {
-            throw new Error('out of bounds');
+        for(var i=0; i<spread; i++) {
+            el = null;
+            offset = (i * dispersion) - (spread * dispersion * 0.5);
+
+            point = {
+                x: params.x + Math.abs(direction.y) * offset,
+                y: params.y + Math.abs(direction.x) * offset
+            }
+            debugPoint(point);
+
+            try {
+                el = findNavigableFromPoint(point);
+            } catch (e) {
+                throw new Error('out of bounds');
+            }
         }
 
         return el;
@@ -100,7 +115,9 @@ define([], function () {
             try {
                 el = findNextNavigable({
                     x: start.x + direction.x * step * i,
-                    y: start.y + direction.y * step * i
+                    y: start.y + direction.y * step * i,
+                    spread: i,
+                    direction: direction
                 });
 
                 if (el && el !== currentElement) {
