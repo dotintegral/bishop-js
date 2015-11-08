@@ -23,8 +23,8 @@ define([], function () {
         if (api.debugPoints) {
             var debugElement = document.createElement('div');
             debugElement.className = 'debug-point';
-            debugElement.style.top = point.y + "px";
-            debugElement.style.left = point.x + "px";
+            debugElement.style.top = point.y-1 + "px";
+            debugElement.style.left = point.x-1 + "px";
             debugElement.style.background = color || "yellow";
             document.body.appendChild(debugElement);
         }
@@ -94,7 +94,6 @@ define([], function () {
 
 
     function findNextNavigable(params) {
-
         var el;
         var bestMatch = {
             element: null,
@@ -109,7 +108,7 @@ define([], function () {
         
         for(var i=0; i<spread; i++) {
             el = null;
-            offset = (i * api.dispersion) - (spread * api.dispersion * 0.5);
+            offset = (i * api.dispersion) - ((spread-1) * api.dispersion * 0.5);
 
             point = {
                 x: params.x + Math.abs(direction.y) * offset,
@@ -184,6 +183,7 @@ define([], function () {
         var maxSpread = ~~currentElement.getAttribute('nav-max-spread') || api.maxSpread;
 
         clearDebugPoints();
+        debugPoint(start, 'green');
 
         while(true) {
             i++;
@@ -221,7 +221,6 @@ define([], function () {
                 console.error("Something went wrong, infinite loop!");
                 break;
             }
-
         }
     }
 
