@@ -234,6 +234,46 @@ define([], function () {
         return event;
     }
 
+    function attributeNavigation(event) {
+        var direction = null;
+        var selector;
+        var el;
+
+        switch(event.keyCode) {
+            case keys.up:
+                direction = 'up';
+                break;
+
+            case keys.down:
+                direction = 'down';
+                break;
+
+            case keys.left:
+                direction = 'left';
+                break;
+
+            case keys.right:
+                direction = 'right';
+                break;
+        }
+        
+        if (direction) {
+            selector = currentElement.getAttribute('nav-' + direction);
+
+            if (selector) {
+                el = document.querySelector(selector);
+
+                if (el) {
+                    api.blur(currentElement);
+                    currentElement = el;
+                    api.focus(currentElement);
+
+                    event.preventDefault();
+                }
+            }
+        }
+    }
+
 
     function defaultNavigation(event) {
         switch(event.keyCode) {
@@ -262,6 +302,10 @@ define([], function () {
 
         event = createNaviEvent(keyboardEvent);
         currentElement.dispatchEvent(event);
+
+        if (event.defaultPrevented === false) {
+            attributeNavigation(event);
+        }
 
         if (event.defaultPrevented === false) {
             defaultNavigation(event);

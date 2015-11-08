@@ -33,3 +33,15 @@ event will be triggered just before perofming the navigation itself. It was deci
   `event.preventDefault()`.
 
 The `navigate` event bubbles up through DOM, similar as native `keydown` event.
+
+## Attribute based navigation
+In addition to events and default navigation, there is possible to use attrubute based navigation. Simply, set any of
+the following attributes on navigable DOM element: `nav-up`, `nav-down`, `nav-left` and `nav-right` with value of CSS
+selector. If the selector matches existing element, it will be focused. When there are more than one match, the first
+found element will be selected.
+
+    
+    <div id="first" class="navigable">Item one</div>
+    <div class="navigable">Item two</div>
+    <div class="navigable" nav-down="#firs">Item three</div>
+

@@ -1,0 +1,40 @@
+body {
+    overflow: hidden;
+}
+
+.container {
+    width: 100%;
+    overflow: hidden;
+}
+
+
+.item {
+    float: left;
+    margin: 70px;
+    width: 80px;
+    height: 80px;
+    background: lightgray;
+    border: solid gray 5px;
+    transition: background 0.3s, border 0.3s;
+}
+
+.item.last {
+    background: lightblue;
+    border: solid blue 5px;
+}
+
+.item.focused {
+    background: lightgreen;
+    border: solid green 5px;
+}
+
+.debug-point {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    box-shadow: black 0px 0px 5px;
+    background: yellow;
+    border-radius: 2px;
+    pointer-events: none;
+}
+
