@@ -2,9 +2,9 @@ define([], function () {
     "use strict";
     
     var api = {
-        step: 60,
-        dispersion: 80,
-        debugPoints: true,
+        step: 30,
+        dispersion: 30,
+        debugPoints: false,
         minSpread: 1,
         maxSpread: 20
     }
