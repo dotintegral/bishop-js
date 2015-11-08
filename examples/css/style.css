@@ -1,12 +1,17 @@
+body {
+    overflow: hidden;
+}
+
 .container {
-    width: 800px;
+    width: 100%;
+    overflow: hidden;
 }
 
 .item {
     float: left;
-    margin: 10px;
-    width: 200px;
-    height: 200px;
+    margin: 70px;
+    width: 80px;
+    height: 80px;
     background: lightgray;
     border: solid gray 5px;
     transition: background 0.3s, border 0.3s;

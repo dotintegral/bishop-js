@@ -2,8 +2,8 @@ define([], function () {
     "use strict";
     
     var api = {
-        step: 30,
-        dispersion: 30,
+        step: 60,
+        dispersion: 80,
         debugPoints: true,
         minSpread: 1,
         maxSpread: 20
@@ -19,12 +19,13 @@ define([], function () {
         esc: 17
     };
 
-    function debugPoint(point) {
+    function debugPoint(point, color) {
         if (api.debugPoints) {
             var debugElement = document.createElement('div');
             debugElement.className = 'debug-point';
             debugElement.style.top = point.y + "px";
             debugElement.style.left = point.x + "px";
+            debugElement.style.background = color || "yellow";
             document.body.appendChild(debugElement);
         }
     }
@@ -82,10 +83,23 @@ define([], function () {
         }
     }
 
+    function isCloser(start, end, maybeCloser) {
+        var xdiff = Math.abs(start.x - end.x);
+        var ydiff = Math.abs(start.y - end.y);
+        var xmaybe = Math.abs(start.x - maybeCloser.x);
+        var ymaybe = Math.abs(start.y - maybeCloser.y);
+
+        return (xdiff >= xmaybe) && (ydiff >= ymaybe);
+    }
+
 
     function findNextNavigable(params) {
 
         var el;
+        var bestMatch = {
+            element: null,
+            point: null,
+        }
         var elements = [];
         var errorCount = 0;
         var point;
@@ -105,9 +119,15 @@ define([], function () {
 
             try {
                 el = findNavigableFromPoint(point);
-                
-                if (elements.indexOf(el) === -1) {
-                    elements.push(el);
+
+                if (el) {
+                    if (bestMatch.element === null) {
+                        bestMatch.element = el;
+                        bestMatch.point = point;
+                    } else if (isCloser(params, bestMatch.point, point)) {
+                        bestMatch.element = el;
+                        bestMatch.point = point;
+                    }
                 }
 
             } catch (e) {
@@ -119,7 +139,7 @@ define([], function () {
             throw new Error('out of bounds');
         }
 
-        return elements[0];
+        return bestMatch.element;
     }
 
 
