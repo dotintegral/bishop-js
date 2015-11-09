@@ -1,6 +1,6 @@
 {
   "name": "bishop-js",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A smart spatial navigation for JS",
   "url": "https://github.com/dotintegral/bishop-js",
   "main": "navi.js",
