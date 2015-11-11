@@ -68,7 +68,7 @@ The `navigate` event bubbles up through DOM, similar as native `keydown` event.
     var lastItem = document.querySelector('#last');
 
     // Add listener for navigable event
-    lastItem.addEventListener('navigable', function (event) {
+    lastItem.addEventListener('navigate', function (event) {
 
         // down key pressed
         if (event.keyCode === 40) {
