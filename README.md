@@ -64,6 +64,8 @@ event will be triggered just before perofming the navigation itself. It was deci
 
 The `navigate` event bubbles up through DOM, similar as native `keydown` event.
 
+Example:
+
     var firstItem = document.querySelector('#first');
     var lastItem = document.querySelector('#last');
 
@@ -86,6 +88,19 @@ After performing blur on an element, `blur` event will be triggered on said elem
 of those contain information about event type - whether if was mouse or keyboard event. The `type` property will contain
 one of corresponding string values: `mouse` and `keyboard`. This is handy, as some components (for example - scrollable
 list) might require different scrolling logic depending on event type.
+
+Example:
+
+    // Implementation of list scrolling with focus event
+    list.forEach(function (item) {
+        
+        // React on focus
+        item.addEventListener('focus', function (event) {
+            
+            // Scroll to item
+            list.scrollTo(item);
+        });
+    });
 
 ## Attribute based navigation
 In addition to events and default navigation, there is possible to use attrubute based navigation. Simply, set any of
