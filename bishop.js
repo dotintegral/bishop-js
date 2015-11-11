@@ -142,12 +142,8 @@ define([], function () {
     }
 
 
-    function findNavigableFromPoint(point) {
-        var element = document.elementFromPoint(point.x, point.y);
-
-        if (element === null) {
-            throw new Error('out of bounds');
-        }
+    function findNavigableParent(el) {
+        var element = el;
 
         while (true) {
             if (element === document.body || element === document.body.parentElement) {
@@ -163,6 +159,17 @@ define([], function () {
         }
 
         return element;
+    }
+
+
+    function findNavigableFromPoint(point) {
+        var element = document.elementFromPoint(point.x, point.y);
+
+        if (element === null) {
+            throw new Error('out of bounds');
+        }
+
+        return findNavigableParent(element);
     }
 
     function blur(element, type) {
@@ -192,7 +199,7 @@ define([], function () {
         }
 
         if (currentElement !== null) {
-            blur(currentElement);
+            blur(currentElement, type);
         }
 
         currentElement = element;
@@ -340,10 +347,24 @@ define([], function () {
         }
     }
 
+    function mouseHandler(mouseEvent) {
+        var element = mouseEvent.target || mouseEvent.srcElement;
+        var navigableElement = findNavigableParent(element);
+        
+        if (navigableElement && navigableElement !== currentElement) {
+            focus(navigableElement, 'mouse');
+        }
+    }
+
+    function init() {
+        document.body.addEventListener('mousemove', mouseHandler);
+    }
+
     api.keyHandler = keyHandler;
     api.isNavigable = defaultIsNavigable;
     api.focus = focus;
     api.blur = blur;
+    api.init = init;
 
     return api;
 });
