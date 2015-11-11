@@ -52,6 +52,8 @@ As a second argument, blur and focus accepts `type`, which should indicate the o
     bishop.focus(newElement, 'keyboard');
 
 ## Events
+
+### Navigate event
 Navigation will trigger a `CustomEvent` named `navigate` on the element from which navigation was triggered. 
 This event will contain `keyCode` property, similar to native browser `keydown` event. Now, notice that this custom
 event will be triggered just before perofming the navigation itself. It was decided so, because:
@@ -79,6 +81,7 @@ The `navigate` event bubbles up through DOM, similar as native `keydown` event.
         }
     });
 
+### Focus and blur events
 After performing blur on an element, `blur` event will be triggered on said element. Same goes for `focus` event. Both
 of those contain information about event type - whether if was mouse or keyboard event. The `type` property will contain
 one of corresponding string values: `mouse` and `keyboard`. This is handy, as some components (for example - scrollable
