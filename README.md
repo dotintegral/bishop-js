@@ -26,6 +26,12 @@ Simply, require the module:
 
     var bishop = require('bishop-js');
 
+Then, init the module.
+
+    bishop.init();
+
+In init, bishops adds event listeners to body. From that point the module is ready to go.
+
 In the simplest scenario, add CSS class `navigable` to any element, that should be navigable. The code will do the 
 rest. 
 
