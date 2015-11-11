@@ -335,15 +335,17 @@ define([], function () {
     function keyHandler(keyboardEvent) {
         var event;
 
-        event = createNaviEvent(keyboardEvent);
-        currentElement.dispatchEvent(event);
+        if (currentElement !== null) {
+            event = createNaviEvent(keyboardEvent);
+            currentElement.dispatchEvent(event);
 
-        if (event.defaultPrevented === false) {
-            attributeNavigation(event);
-        }
+            if (event.defaultPrevented === false) {
+                attributeNavigation(event);
+            }
 
-        if (event.defaultPrevented === false) {
-            defaultNavigation(event);
+            if (event.defaultPrevented === false) {
+                defaultNavigation(event);
+            }
         }
     }
 
