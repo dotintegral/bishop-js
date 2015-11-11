@@ -18,6 +18,7 @@ body {
     transition: background 0.3s, border 0.3s;
 }
 
+.item.first,
 .item.last {
     background: lightblue;
     border: solid blue 5px;

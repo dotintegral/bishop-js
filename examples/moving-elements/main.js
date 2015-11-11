@@ -16,5 +16,5 @@ define([
     bishop.dispersion = 50;
     bishop.debugPoints = false;
 
-    bishop.init();
+    bishop.focus(document.querySelector('.focused'));
 });

@@ -166,11 +166,40 @@ define([], function () {
     }
 
     function blur(element) {
+        var event;
+
+        if (!api.isNavigable(element)) {
+            throw new Error('cannot blur not navigable element');
+        }
+
+        if (currentElement !== element) {
+            throw new Error('Cannot blur element not focused');
+        }
+
         element.classList.remove('focused');
+        currentElement = null;
+
+        event = new CustomEvent('blur');
+        element.dispatchEvent(event);
     }
 
-    function focus(element) {
+    function focus(element, type) {
+        var event;
+
+        if (!api.isNavigable(element)) {
+            throw new Error('cannot focus not navigable element');
+        }
+
+        if (currentElement !== null) {
+            blur(currentElement);
+        }
+
+        currentElement = element;
         element.classList.add('focused');
+
+        event = new CustomEvent('focus');
+        event.type = type;
+        element.dispatchEvent(event);
     }
 
 
@@ -206,9 +235,8 @@ define([], function () {
                 });
 
                 if (el && el !== currentElement) {
-                    api.blur(currentElement);
-                    currentElement = el;
-                    api.focus(currentElement);
+                    blur(currentElement);
+                    focus(el);
                     break;
                 }
 
@@ -264,9 +292,8 @@ define([], function () {
                 el = document.querySelector(selector);
 
                 if (el) {
-                    api.blur(currentElement);
-                    currentElement = el;
-                    api.focus(currentElement);
+                    blur(currentElement);
+                    focus(el);
 
                     event.preventDefault();
                 }
@@ -312,18 +339,10 @@ define([], function () {
         }
     }
 
-
-    function init() {
-        console.log('init');
-        currentElement = document.querySelector(".focused");
-    }
-
     api.keyHandler = keyHandler;
-    api.init = init;
     api.isNavigable = defaultIsNavigable;
     api.focus = focus;
     api.blur = blur;
-
 
     return api;
 });

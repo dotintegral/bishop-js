@@ -20,8 +20,9 @@ rest.
 
 The module will add the class `focused` to item that was focused.
 
-Currently, before using for the first time, you need to mark the initially focused element with `focused` class
-manually, then call `bishop.init()` so the module will detect when to start the navigation.
+You can force manually to focus/blur a navigable event by using `bishop.focus` and `bishop.blur` methods. Notice, that
+only one item can be focused. Therefore, `focus` will call `blur` automatically on currently active element.
+To start using the navigation, simply call `focus` on navigable element when ready.
 
 ## Events
 Navigation will trigger a `CustomEvent` named `navigate` on the element from which navigation was triggered. 

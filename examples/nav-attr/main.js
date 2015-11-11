@@ -10,5 +10,5 @@ define([
 
     document.addEventListener('keydown', bishop.keyHandler);
 
-    bishop.init();
+    bishop.focus(document.querySelector('.focused'));
 });
