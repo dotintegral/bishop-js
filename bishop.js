@@ -357,10 +357,10 @@ define([], function () {
     }
 
     function init() {
+        document.addEventListener('keydown', keyHandler);
         document.body.addEventListener('mousemove', mouseHandler);
     }
 
-    api.keyHandler = keyHandler;
     api.isNavigable = defaultIsNavigable;
     api.focus = focus;
     api.blur = blur;
