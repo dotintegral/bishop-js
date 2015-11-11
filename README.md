@@ -10,6 +10,8 @@ The main idea is based on the `document.elementFromPoint` method. Although this 
 `experimental`, seems that all current browsers and browser based enviroments (such as SmartTV platforms) support it.
 For more details, refer https://developer.mozilla.org/pl/docs/Web/API/Document/elementFromPoint
 
+Navigation also support mouse/pointer. 
+
 ## Usage
 In the simplest scenario, add CSS class `navigable` to any element, that should be navigable. The code will do the 
 rest. 
@@ -24,6 +26,12 @@ You can force manually to focus/blur a navigable event by using `bishop.focus` a
 only one item can be focused. Therefore, `focus` will call `blur` automatically on currently active element.
 To start using the navigation, simply call `focus` on navigable element when ready.
 
+As a second argument, blur and focus accepts `type`, which should indicate the origin of the action. Default are:
+`'mouse'` and `'keyboard'`. You can pass custom types, if needed.
+
+    bishop.blur(oldElement, 'keyboard');
+    bishop.focus(newElement, 'keyboard');
+
 ## Events
 Navigation will trigger a `CustomEvent` named `navigate` on the element from which navigation was triggered. 
 This event will contain `keyCode` property, similar to native browser `keydown` event. Now, notice that this custom
@@ -34,6 +42,11 @@ event will be triggered just before perofming the navigation itself. It was deci
   `event.preventDefault()`.
 
 The `navigate` event bubbles up through DOM, similar as native `keydown` event.
+
+After performing blur on an element, `blur` event will be triggered on said element. Same goes for `focus` event. Both
+of those contain information about event type - whether if was mouse or keyboard event. The property type will contain
+one of corresponding string values: `mouse` and `keyboard`. This is handy, as some components (for example - scrollable
+list) might require different scrolling logic depending on event type.
 
 ## Attribute based navigation
 In addition to events and default navigation, there is possible to use attrubute based navigation. Simply, set any of
