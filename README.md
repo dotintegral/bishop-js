@@ -44,7 +44,7 @@ event will be triggered just before perofming the navigation itself. It was deci
 The `navigate` event bubbles up through DOM, similar as native `keydown` event.
 
 After performing blur on an element, `blur` event will be triggered on said element. Same goes for `focus` event. Both
-of those contain information about event type - whether if was mouse or keyboard event. The property type will contain
+of those contain information about event type - whether if was mouse or keyboard event. The `type` property will contain
 one of corresponding string values: `mouse` and `keyboard`. This is handy, as some components (for example - scrollable
 list) might require different scrolling logic depending on event type.
 
