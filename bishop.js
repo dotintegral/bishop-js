@@ -165,7 +165,7 @@ define([], function () {
         return element;
     }
 
-    function blur(element) {
+    function blur(element, type) {
         var event;
 
         if (!api.isNavigable(element)) {
@@ -180,6 +180,7 @@ define([], function () {
         currentElement = null;
 
         event = new CustomEvent('blur');
+        event.type = type;
         element.dispatchEvent(event);
     }
 
@@ -235,8 +236,8 @@ define([], function () {
                 });
 
                 if (el && el !== currentElement) {
-                    blur(currentElement);
-                    focus(el);
+                    blur(currentElement, 'keyboard');
+                    focus(el, 'keyboard');
                     break;
                 }
 
@@ -292,8 +293,8 @@ define([], function () {
                 el = document.querySelector(selector);
 
                 if (el) {
-                    blur(currentElement);
-                    focus(el);
+                    blur(currentElement, 'keyboard');
+                    focus(el, 'keyboard');
 
                     event.preventDefault();
                 }
