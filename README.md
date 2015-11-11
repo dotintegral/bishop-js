@@ -78,3 +78,16 @@ found element will be selected.
     <div class="navigable">Item two</div>
     <div class="navigable" nav-down="#firs">Item three</div>
 
+
+## Customizing
+
+### Detecting navigable element
+
+By default, bishop-js will consider a navigable every element that have `navigable` CSS class. You can override this
+behaviour by passing your own implementation of `isNavigable` method. It takes a DOM element as a argument and returns
+true or false. Example:
+
+    // Every 'a' is navigable
+    bishop.isNavigable = function (element) {
+        return element.tagName === 'a';
+    }
