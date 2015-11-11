@@ -62,6 +62,23 @@ event will be triggered just before perofming the navigation itself. It was deci
 
 The `navigate` event bubbles up through DOM, similar as native `keydown` event.
 
+    var firstItem = document.querySelector('#first');
+    var lastItem = document.querySelector('#last');
+
+    // Add listener for navigable event
+    lastItem.addEventListener('navigable', function (event) {
+
+        // down key pressed
+        if (event.keyCode === 40) {
+            
+            // focus first item
+            bishop.focus(firstItem);
+            
+            // Prevent default action
+            event.preventDefault();
+        }
+    });
+
 After performing blur on an element, `blur` event will be triggered on said element. Same goes for `focus` event. Both
 of those contain information about event type - whether if was mouse or keyboard event. The `type` property will contain
 one of corresponding string values: `mouse` and `keyboard`. This is handy, as some components (for example - scrollable
@@ -76,7 +93,7 @@ found element will be selected.
     
     <div id="first" class="navigable">Item one</div>
     <div class="navigable">Item two</div>
-    <div class="navigable" nav-down="#firs">Item three</div>
+    <div id="last" class="navigable" nav-down="#first">Item three</div>
 
 
 ## Customizing
